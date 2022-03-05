@@ -1,0 +1,35 @@
+current-context: main-context
+apiVersion: v1
+clusters:
+# 
+- cluster:
+    api-version: v1
+    server: http://127.0.0.1:8080
+    #server: http://meeplabben.org:8080
+    #certificate-authority: path/to/my/cafile
+    insecure-skip-tls-verify: true
+  name: meeplabben
+
+# A context element in a kubeconfig file is used to group access 
+# parameters under a convenient name. Each context has three 
+# parameters: cluster, namespace, and user. By default, the kubectl 
+# command-line tool uses parameters from the current context to 
+# communicate with the cluster.
+contexts:
+- context:
+    cluster: meeplabben
+    namespace: 
+    user: user_moop
+  name: meeplabben-context
+kind: Config
+#preferences:
+#  colors: true
+
+users:
+- name: user_moop
+  user:
+    token: insert_token_here
+#- name: name 
+#  user:
+#    client-certificate: path/to/my/client/cert
+#    client-key: path/to/my/client/key
