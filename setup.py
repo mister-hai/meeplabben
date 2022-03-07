@@ -34,7 +34,7 @@ setup(
         "Pygments==2.7.4",
         "requests==2.22.0",
         "colorama==0.4.3",
-        "",
+        "kubernetes==21.7.0",
         "gitpython",
     ],
     packages=find_packages(),

@@ -65,14 +65,15 @@ debuggreen(f"kubectl config located at {KUBECONFIGPATH}")
 
 KUBECONFIG = "./data/kubeconfig"
 KUBECONTEXT = "meeplabben"
+
 def createsandbox():
     '''
     Creates the sandbox, using kubernetes/docker
     '''
     # set environment to read from kube config directory
-    debuggreen("Setting Environment from .env in project root")
+    debugyellow("Setting Environment from .env in project root")
     getenv(ENVFILE)
-    setenv({"KUBECONFIG":KUBECONFIGPATH})
+    #setenv({"KUBECONFIG":KUBECONFIGPATH})
 
 def runsandbox(composefile):
     '''
@@ -113,9 +114,11 @@ class Project():
 
 class MenuGrouping():
     '''
-        DO NOT MOVE THIS FILE
-    This is the main menu of the project, Project.__init__ is where you
-    explicitly define the paths of the folders expected
+        DO NOT MOVE THIS FILE \n
+    This is the main menu of the project, \n
+    Project.__init__ is where you explicitly define the paths \n
+    of the folders expected \n\n
+    
     This class is where you build the menu calling other actions
 
     '''
@@ -123,11 +126,11 @@ class MenuGrouping():
         # challenge templates
         self.name = "lol"
         self.project_actions = Project(PROJECT_ROOT)
+        self.injectENV = getenv(ENVFILE)
         self.cli = Ctfcli()
 
 def main():
    fire.Fire(MenuGrouping)
-
 
 if __name__ == "__main__":
     main()
