@@ -6,6 +6,7 @@ import logging
 import traceback
 import tarfile
 from pathlib import Path
+
 global DEBUG
 DEBUG = True
 
@@ -38,50 +39,15 @@ makeyellow        = lambda text: Fore.YELLOW + ' ' +  text + ' ' + Style.RESET_A
 makered           = lambda text: Fore.RED + ' ' +  text + ' ' + Style.RESET_ALL if (COLORMEQUALIFIED == True) else None
 makegreen         = lambda text: Fore.GREEN + ' ' +  text + ' ' + Style.RESET_ALL if (COLORMEQUALIFIED == True) else None
 makeblue          = lambda text: Fore.BLUE + ' ' +  text + ' ' + Style.RESET_ALL if (COLORMEQUALIFIED == True) else None
-debugred = lambda text: print(Fore.RED + ' ' +  text + ' ' + Style.RESET_ALL) if (DEBUG == True) else None
-debugblue = lambda text: print(Fore.BLUE + ' ' +  text + ' ' + Style.RESET_ALL) if (DEBUG == True) else None
-debuggreen = lambda text: print(Fore.GREEN + ' ' +  text + ' ' + Style.RESET_ALL) if (DEBUG == True) else None
-debugyellow = lambda text: print(Fore.YELLOW + ' ' +  text + ' ' + Style.RESET_ALL) if (DEBUG == True) else None
+debugred = lambda text: print(Fore.RED + '[DEBUG] ' +  text + ' ' + Style.RESET_ALL) if (DEBUG == True) else None
+debugblue = lambda text: print(Fore.BLUE + '[DEBUG] ' +  text + ' ' + Style.RESET_ALL) if (DEBUG == True) else None
+debuggreen = lambda text: print(Fore.GREEN + '[DEBUG] ' +  text + ' ' + Style.RESET_ALL) if (DEBUG == True) else None
+debugyellow = lambda text: print(Fore.YELLOW + '[DEBUG] ' +  text + ' ' + Style.RESET_ALL) if (DEBUG == True) else None
 debuglog     = lambda message: logger.debug(message) 
 infolog      = lambda message: logger.info(message)   
 warninglog   = lambda message: logger.warning(message) 
 errorlog     = lambda message: logger.error(message) 
 criticallog  = lambda message: logger.critical(message)
-
-
-
-# old code from ctfdrepo.py
-#regularchallengelist = ["handout","solution","challenge", "README"] #.yaml","challenge.yml"]
-#deploymentfoldercontents = ["deployment","Dockerfile","metadata.yaml","README"]
-
-                # itterate over the items in the directory
-                #for item in challengedirlist:
-                    # get the paths
-                    #itempath = challengeitempath(item)
-                    # assign paths to dict as {filename:path}
-                    #kwargs[str(itempath.stem).lower()] =  itempath
-
-            # for list of all item in dir
-            #for item in challengedirlist:
-            #    itempath = challengeitempath(item)
-                # if the item is in the list of approved items
-                # for a regular non-deployment challenge
-                #for validationitemslist in validationdict:
-                #    self._validatefolder(validationdict, )
-                #if itempath.stem in regularchallengelist:
-                #    debuggreen(f"[+] Found : {item}")
-            #    kwargs[str(itempath.stem).lower()] =  itempath
-                # if its a readme
-                #elif itempath.stem == "README":
-                #    kwargs[str(itempath.stem).lower()] = itempath
-                # extra stuff not in approved list of contents
-                #elif itempath.stem not in regularchallengelist:
-                    # ignore it
-                #    continue
-                # all other conditions
-                #else:
-                    #logger.error(f"[-] missing important item in challenge folder, skipping : missing {item}")
-                #    break
 
 #this is where everything is defined, the structure of the repo folders
 validationdict = {

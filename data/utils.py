@@ -3,7 +3,7 @@ from ctfcli.utils.utils import greenprint,errorlogger
 from pygments import formatters, highlight, lexers
 from pygments.util import ClassNotFound
 from simple_term_menu import TerminalMenu
-
+from pathlib import Path
 
 ###############################################################################
 ##                          envsubst clone
@@ -20,6 +20,48 @@ def putenv(key,value):
         greenprint(f"[+] {key} Env variable set to {value}")
     except Exception:
         errorlogger(f"[-] Failed to set {key} with {value}")
+
+
+def getenv(envfile):
+    """
+    reads the .env file for the project
+    you must specify the full path to the .env file
+
+    .env is in PROJECTROOT
+    """
+    # ugly hack because dotenv doesnt install?
+    # sources the given .env 
+    bash_script = f'''#!/usr/bin/env bash
+set -a
+source {envfile}
+set +a
+'''
+    subprocess.Popen(bash_script,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    #output, error = cmd.communicate()
+    #for output_line in output.decode().split('\n'):
+    #    print(output_line)
+
+
+def python_getenv(envfile = "./.env"):
+    """
+    Pythonic solution to reading a .env file into the environment
+    """
+    env_vars = [] # or dict {}
+    with open(envfile) as f:
+        for line in f:
+            if line.startswith('#') or not line.strip():
+                continue
+            # if 'export' not in line:
+            #     continue
+            # Remove leading `export `, if you have those
+            # then, split name / value pair
+            # key, value = line.replace('export ', '', 1).strip().split('=', 1)
+            key, value = line.strip().split('=', 1)
+            # os.environ[key] = value  # Load to local environ
+            # env_vars[key] = value # Save to a dict, initialized env_vars = {}
+            env_vars.append({'name': key, 'value': value}) # Save to a list
+
+    #print(env_vars)
 
 def setenv(**kwargs):
     '''

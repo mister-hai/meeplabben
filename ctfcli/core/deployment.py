@@ -132,11 +132,11 @@ class KubernetesConfig(client.Configuration):
             }
         """
         if useenv:
-            config_file = os.environ.get("KUBECONFIG", KUBE_CONFIG_PATH),
+            config_file = os.environ.get("KUBECONFIG")#, KUBE_CONFIG_PATH),
             context = os.environ.get("KUBECONTEXT")
         elif not useenv:
             config_file = configdict.get("KUBECONFIG")
-            context = configdict.get("context")
+            context = configdict.get("KUBECONTEXT")
 
         self.load_kube_config(
             config_file,
@@ -168,7 +168,7 @@ class KubernetesManagment():
         # default location.
         config.load_kube_config()
     
-    def get_k8s_nodes(exclude_node_label_key=app_config["EXCLUDE_NODE_LABEL_KEY"]):
+    def get_k8s_nodes():#exclude_node_label_key=app_config["EXCLUDE_NODE_LABEL_KEY"]):
         """
         Returns a list of kubernetes nodes
         """
@@ -184,12 +184,12 @@ class KubernetesManagment():
         k8s_api = client.CoreV1Api()
         infolog("Getting k8s nodes...")
         response = k8s_api.list_node()
-        if exclude_node_label_key is not None:
-            nodes = []
-            for node in response.items:
-                if exclude_node_label_key not in node.metadata.labels:
-                    nodes.append(node)
-            response.items = nodes
+        #if exclude_node_label_key is not None:
+        #    nodes = []
+        #    for node in response.items:
+        #        if exclude_node_label_key not in node.metadata.labels:
+        #            nodes.append(node)
+        #    response.items = nodes
         infolog.info("Current k8s node count is {}".format(len(response.items)))
         return response.items 
 
