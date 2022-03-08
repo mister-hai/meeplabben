@@ -1,20 +1,47 @@
-#This file is going to be the main file after start.sh I guess?
-
 # repository managment
 from ctfcli.__main__ import Ctfcli
-import data.globals as globals
-from ctfcli.utils.utils import greenprint,errorlogger,debuggreen,debugyellow
 
-
-# top scope imports
-#from data.utils import getenv,setenv,putenv
 # info for docker pull
 from data.dockerpulls import *
 
 # basic imports
-import fire,os
+import fire
 from pathlib import Path
+from sys import path
+from os import remove,listdir
+from os.path import realpath,abspath,exists,abspath
 
+# load utilities
+from data.utils import getenv
+# import global vars
+from data.globals import debugyellow
+import data.globals as globals
+
+################################################################################
+##############                   Master Values                 #################
+################################################################################
+
+# puts this directory in the path
+debugyellow(f"Inserting current folder into $PATH at index 0")
+path.insert(0, abspath('.'))
+
+####################
+### Before we load the menu, we need to do some checks
+##############
+
+# Where the terminal is located when you run the file
+PWD = realpath(".")
+#PWD = realpath(__file__)
+
+# now we init the globals
+# enable debugging mode
+globals.debug(True)
+#init paths
+globals.paths(PWD)
+
+# now load the environment variables into the module
+debugyellow("Setting Environment from .env in project root")
+getenv(globals.ENVFILE)
 ######################################################
 ##  KUBERNETES SETTINGS
 ######################################################
@@ -58,9 +85,9 @@ class Project():
         """
         for directory in self.persistantdata:
             # clean mysql
-            for file in os.listdir(directory):
-                if os.exists(Path(os.path.abspath(file))):
-                    os.remove(Path(os.path.abspath(file)))
+            for file in listdir(directory):
+                if exists(Path(abspath(file))):
+                    remove(Path(abspath(file)))
             # clean redis
             #for file in os.listdir(self.mysql):
             #    os.remove(Path(os.path.abspath(file)))
@@ -68,14 +95,24 @@ class Project():
 
 
 class MenuGrouping():
-    '''
-        DO NOT MOVE THIS FILE \n
-    This is the main menu of the project, \n
-    Project.__init__ is where you explicitly define the paths \n
-    of the folders expected \n\n
-    
-    This class is where you build the menu calling other actions
+#    DO NOT MOVE THIS FILE
+#    This is the main menu of the project,
+#    Project.__init__ is where you explicitly define the paths 
+#    of the folders expected
+#    This class is where you build the menu calling other actions   
+    '''    
+Welcome to Meep lab! 
 
+This software initiates a sandboxed environment to be used for:
+
+- practicing hacking
+- malware analysis
+- networking studies
+- secdevops studies
+- just about anything needing a strongly sandboxed network of arbitrary computer
+    entities with the full ecosystem of docker and kubernetes
+
+Meeplabben, meepabben, meepben! (its dutch, plug it into google translate)
     '''
     def __init__(self):
         # challenge templates

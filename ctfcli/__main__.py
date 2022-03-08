@@ -97,17 +97,11 @@ class Ctfcli():
     def _setenv(self):
         """
         Handles environment switching from being a 
-        standlone module to being a submodule
+        standlone module for individual use 
+        to being a submodule of meeplabben
         """
         PWD = Path(os.path.realpath("."))
-
-        #PWD_LIST = os.listdir(PWD)
-        # if whatever not in PWD_LIST:
-        #   dosomethingdrastic(fuckitup)
-        #
         # this must be alongside the challenges folder if being used by itself
-            # Master values
-            # alter these accordingly
         self._toolfolder   = Path(os.path.dirname(__file__))
         greenprint(f"[+] Tool folder Located at {self._toolfolder}")
         if DEBUG == True:
@@ -116,6 +110,8 @@ class Ctfcli():
             PROJECT_ROOT = os.getenv('PROJECT_ROOT')
             self.root = PROJECT_ROOT
         
+
+        # if running as main module, called via CLI
         if __name__ == "__main__":
             # TODO: make function to check if they put it next to
             #  an actual repository fitting the spec
@@ -136,8 +132,9 @@ class Ctfcli():
                         self._reporoot = Path(PROJECT_ROOT,"data","CTFd")
             except Exception:
                 errorlogger("[-] Error, cannot find repository! ")
+        # running as submodule, in meeplabben
         else:
-            from __main__ import PROJECT_ROOT
+            #from __main__ import PROJECT_ROOT
             self._reporoot = Path(PROJECT_ROOT,"data","CTFd")
 
         os.environ["REPOROOT"] = str(self._reporoot)
