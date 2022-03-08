@@ -1,51 +1,10 @@
 import os,sys,subprocess
 
-import data.globals
-
+from data.globals import greenprint,errorlog
 from pygments import formatters, highlight, lexers
 from pygments.util import ClassNotFound
 from simple_term_menu import TerminalMenu
-from pathlib import Path
-import pathlib
-import logging
-try:
-    #import colorama
-    from colorama import init
-    init()
-    from colorama import Fore, Back, Style
-    COLORMEQUALIFIED = True
-except ImportError as derp:
-    print("[-] NO COLOR PRINTING FUNCTIONS AVAILABLE, Install the Colorama Package from pip")
-    COLORMEQUALIFIED = False
 
-################################################################################
-##############               LOGGING AND ERRORS                #################
-################################################################################
-log_file            = 'logfile'
-logging.basicConfig(filename=log_file, 
-                    #format='%(asctime)s %(message)s', 
-                    filemode='w'
-                    )
-logger              = logging.getLogger()
-launchercwd         = pathlib.Path().absolute()
-
-redprint          = lambda text: print(Fore.RED + ' ' +  text + ' ' + Style.RESET_ALL) if (COLORMEQUALIFIED == True) else print(text)
-blueprint         = lambda text: print(Fore.BLUE + ' ' +  text + ' ' + Style.RESET_ALL) if (COLORMEQUALIFIED == True) else print(text)
-greenprint        = lambda text: print(Fore.GREEN + ' ' +  text + ' ' + Style.RESET_ALL) if (COLORMEQUALIFIED == True) else print(text)
-yellowboldprint = lambda text: print(Fore.YELLOW + Style.BRIGHT + ' {} '.format(text) + Style.RESET_ALL) if (COLORMEQUALIFIED == True) else print(text)
-makeyellow        = lambda text: Fore.YELLOW + ' ' +  text + ' ' + Style.RESET_ALL if (COLORMEQUALIFIED == True) else None
-makered           = lambda text: Fore.RED + ' ' +  text + ' ' + Style.RESET_ALL if (COLORMEQUALIFIED == True) else None
-makegreen         = lambda text: Fore.GREEN + ' ' +  text + ' ' + Style.RESET_ALL if (COLORMEQUALIFIED == True) else None
-makeblue          = lambda text: Fore.BLUE + ' ' +  text + ' ' + Style.RESET_ALL if (COLORMEQUALIFIED == True) else None
-debugred = lambda text: print(Fore.RED + '[DEBUG] ' +  text + ' ' + Style.RESET_ALL) if (DEBUG == True) else None
-debugblue = lambda text: print(Fore.BLUE + '[DEBUG] ' +  text + ' ' + Style.RESET_ALL) if (DEBUG == True) else None
-debuggreen = lambda text: print(Fore.GREEN + '[DEBUG] ' +  text + ' ' + Style.RESET_ALL) if (DEBUG == True) else None
-debugyellow = lambda text: print(Fore.YELLOW + '[DEBUG] ' +  text + ' ' + Style.RESET_ALL) if (DEBUG == True) else None
-debuglog     = lambda message: logger.debug(message) 
-infolog      = lambda message: logger.info(message)   
-warninglog   = lambda message: logger.warning(message) 
-errorlog     = lambda message: logger.error(message) 
-criticallog  = lambda message: logger.critical(message)
 
 ###############################################################################
 ##                          envsubst clone
@@ -61,7 +20,7 @@ def putenv(key,value):
         os.environ[key] = value
         greenprint(f"[+] {key} Env variable set to {value}")
     except Exception:
-        errorlogger(f"[-] Failed to set {key} with {value}")
+        errorlog(f"[-] Failed to set {key} with {value}")
 
 
 def getenv(envfile):
@@ -79,9 +38,6 @@ source {envfile}
 set +a
 '''
     subprocess.Popen(bash_script,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-    #output, error = cmd.communicate()
-    #for output_line in output.decode().split('\n'):
-    #    print(output_line)
 
 
 def python_getenv(envfile = "./.env"):
@@ -122,7 +78,7 @@ def setenv(**kwargs):
         else:
             raise Exception
     except Exception:
-        errorlogger("""[-] Failed to set environment variables!\n
+        errorlog("""[-] Failed to set environment variables!\n
     this is an extremely important step and the program must exit now. \n
     A log has been created with the information from the error shown,  \n
     please provide this information to the github issue tracker""")

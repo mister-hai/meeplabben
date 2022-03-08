@@ -3,9 +3,9 @@ from sys import path
 from os.path import realpath,abspath
 
 # load utilities
-from data.utils import getenv,debugyellow,debuggreen
-
+from data.utils import getenv
 # import global vars
+from data.globals import debugyellow
 import data.globals as globals
 
 ################################################################################
@@ -22,9 +22,13 @@ path.insert(0, abspath('.'))
 
 # Where the terminal is located when you run the file
 PWD = realpath(".")
+#PWD = realpath(__file__)
 
 # now we init the globals
-globals.paths()
+# enable debugging mode
+globals.debug(True)
+#init paths
+globals.paths(PWD)
 
 # now load the environment variables into the module
 debugyellow("Setting Environment from .env in project root")

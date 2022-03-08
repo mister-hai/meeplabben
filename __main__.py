@@ -2,11 +2,12 @@
 
 # repository managment
 from ctfcli.__main__ import Ctfcli
+import data.globals as globals
 from ctfcli.utils.utils import greenprint,errorlogger,debuggreen,debugyellow
 
 
 # top scope imports
-from data.utils import getenv,setenv,putenv
+#from data.utils import getenv,setenv,putenv
 # info for docker pull
 from data.dockerpulls import *
 
@@ -35,6 +36,7 @@ def runsandbox(composefile):
     Args:
         composefile (str): composefile to use
     '''
+    import subprocess
     subprocess.Popen(["docker-compose", "up", composefile])
 
 ################################################################################
@@ -78,8 +80,7 @@ class MenuGrouping():
     def __init__(self):
         # challenge templates
         self.name = "lol"
-        self.project_actions = Project(PROJECT_ROOT)
-        #self.injectENV = getenv(ENVFILE)
+        self.project_actions = Project(globals.PROJECT_ROOT)
         self.cli = Ctfcli()
 
 def main():
