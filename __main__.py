@@ -1,6 +1,5 @@
 #This file is going to be the main file after start.sh I guess?
 
-# HUGE TODO: SET PATHS CORRECTLY EVERYTHING IS BROKENNNN!!!!!
 # repository managment
 from ctfcli.__main__ import Ctfcli
 from ctfcli.utils.utils import greenprint,errorlogger,debuggreen,debugyellow
@@ -12,7 +11,8 @@ from data.utils import getenv,setenv,putenv
 from data.dockerpulls import *
 
 # basic imports
-import fire
+import fire,os
+from pathlib import Path
 
 ######################################################
 ##  KUBERNETES SETTINGS
@@ -26,8 +26,6 @@ def createsandbox():
     Creates the sandbox, using kubernetes/docker
     '''
     # set environment to read from kube config directory
-    debugyellow("Setting Environment from .env in project root")
-    getenv(ENVFILE)
     #setenv({"KUBECONFIG":KUBECONFIGPATH})
 
 def runsandbox(composefile):
@@ -81,7 +79,7 @@ class MenuGrouping():
         # challenge templates
         self.name = "lol"
         self.project_actions = Project(PROJECT_ROOT)
-        self.injectENV = getenv(ENVFILE)
+        #self.injectENV = getenv(ENVFILE)
         self.cli = Ctfcli()
 
 def main():

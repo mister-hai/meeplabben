@@ -1,16 +1,57 @@
 #import ctfcli
-import __main__
-
-import subprocess,os,sys
+import sys,os
+import pathlib
+import logging
 from pathlib import Path
 
-from ctfcli.utils.utils import debuggreen,debugyellow
+# load utilities
+from data.utils import getenv
+
+#setting debugging global for extra information
+global DEBUG
+DEBUG = True
+
+try:
+    #import colorama
+    from colorama import init
+    init()
+    from colorama import Fore, Back, Style
+    COLORMEQUALIFIED = True
+except ImportError as derp:
+    print("[-] NO COLOR PRINTING FUNCTIONS AVAILABLE, Install the Colorama Package from pip")
+    COLORMEQUALIFIED = False
+
+################################################################################
+##############               LOGGING AND ERRORS                #################
+################################################################################
+log_file            = 'logfile'
+logging.basicConfig(filename=log_file, 
+                    #format='%(asctime)s %(message)s', 
+                    filemode='w'
+                    )
+logger              = logging.getLogger()
+launchercwd         = pathlib.Path().absolute()
+
+redprint          = lambda text: print(Fore.RED + ' ' +  text + ' ' + Style.RESET_ALL) if (COLORMEQUALIFIED == True) else print(text)
+blueprint         = lambda text: print(Fore.BLUE + ' ' +  text + ' ' + Style.RESET_ALL) if (COLORMEQUALIFIED == True) else print(text)
+greenprint        = lambda text: print(Fore.GREEN + ' ' +  text + ' ' + Style.RESET_ALL) if (COLORMEQUALIFIED == True) else print(text)
+yellowboldprint = lambda text: print(Fore.YELLOW + Style.BRIGHT + ' {} '.format(text) + Style.RESET_ALL) if (COLORMEQUALIFIED == True) else print(text)
+makeyellow        = lambda text: Fore.YELLOW + ' ' +  text + ' ' + Style.RESET_ALL if (COLORMEQUALIFIED == True) else None
+makered           = lambda text: Fore.RED + ' ' +  text + ' ' + Style.RESET_ALL if (COLORMEQUALIFIED == True) else None
+makegreen         = lambda text: Fore.GREEN + ' ' +  text + ' ' + Style.RESET_ALL if (COLORMEQUALIFIED == True) else None
+makeblue          = lambda text: Fore.BLUE + ' ' +  text + ' ' + Style.RESET_ALL if (COLORMEQUALIFIED == True) else None
+debugred = lambda text: print(Fore.RED + '[DEBUG] ' +  text + ' ' + Style.RESET_ALL) if (DEBUG == True) else None
+debugblue = lambda text: print(Fore.BLUE + '[DEBUG] ' +  text + ' ' + Style.RESET_ALL) if (DEBUG == True) else None
+debuggreen = lambda text: print(Fore.GREEN + '[DEBUG] ' +  text + ' ' + Style.RESET_ALL) if (DEBUG == True) else None
+debugyellow = lambda text: print(Fore.YELLOW + '[DEBUG] ' +  text + ' ' + Style.RESET_ALL) if (DEBUG == True) else None
+debuglog     = lambda message: logger.debug(message) 
+infolog      = lambda message: logger.info(message)   
+warninglog   = lambda message: logger.warning(message) 
+errorlog     = lambda message: logger.error(message) 
+criticallog  = lambda message: logger.critical(message)
 ################################################################################
 ##############                   Master Values                 #################
 ################################################################################
-# set to true to enable debugging messages in the terminal
-global DEBUG
-DEBUG = True
 
 # puts this directory in the path
 debugyellow(f"Inserting current folder into $PATH at index 0")
@@ -48,3 +89,10 @@ debuggreen(f"Docker Compose directory located at {COMPOSEDIRECTORY}")
 global KUBECONFIGPATH
 KUBECONFIGPATH = Path(PROJECT_ROOT, '/data/kubeconfig/')
 debuggreen(f"kubectl config located at {KUBECONFIGPATH}")
+
+# now load the environment variables into the module
+debugyellow("Setting Environment from .env in project root")
+getenv(ENVFILE)
+
+# now we load the main module, calling the CTFCLI module
+import __main__
