@@ -11,9 +11,9 @@ from ctfcli.utils.config import Config
 
 class SandBoxyCTFdLinkage():
     """
-    CTFCLI
+    Sandbox repository managment for CTF/Training
 
-    >>> host@server$> python ./ctfcli/ ctfcli
+    >>> host@server$> python ./meeplabben/ cli ctfdrepo
 
     Used to upload challenges from the data directory in project root
     And manage the ctfd instance

@@ -11,7 +11,7 @@ from ctfcli.utils.utils import DEBUG
 ###############################################################################
 class Ctfcli():
     '''
-        Proper Usage is as follows
+        main cli tool for internal repository operations, and pushing challenges to server
 
         THIS TOOL SHOULD BE ALONGSIDE the challenges repository folder
         
@@ -132,6 +132,7 @@ class Ctfcli():
                         self._reporoot = Path(PROJECT_ROOT,"data","CTFd")
             except Exception:
                 errorlogger("[-] Error, cannot find repository! ")
+        
         # running as submodule, in meeplabben
         else:
             #from __main__ import PROJECT_ROOT

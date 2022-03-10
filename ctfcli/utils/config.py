@@ -59,7 +59,7 @@ class Config():#configparser.ConfigParser):
     '''
 Config class
 Maps to the command
-host@server$> python ./ctfcli/ config <command>
+host@server$> python ./meeplabben/ cli config <command>
     '''
     def __init__(self, configpath:Path):
         #parser = configparser.ConfigParser()

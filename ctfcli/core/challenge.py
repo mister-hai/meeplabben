@@ -1,9 +1,9 @@
 from hashlib import sha1
-from logging import debug
 from ctfcli.utils.utils import errorlogger,yellowboldprint,greenprint
 from ctfcli.core.apisession import APIHandler
-from ctfcli.utils.utils import redprint,DEBUG
-from ctfcli.utils.utils import debugblue,debuggreen,debugred,debugyellow
+#from ctfcli.utils.utils import DEBUG
+from data.globals import DEBUG
+from ctfcli.utils.utils import debugblue,debuggreen
 
 ###############################################################################
 #  CHALLENGEYAML

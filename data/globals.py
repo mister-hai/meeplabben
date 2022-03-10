@@ -82,3 +82,60 @@ def paths(pwd:Path):
     global KUBECONFIGPATH
     KUBECONFIGPATH = Path(PROJECT_ROOT) / 'data' / 'kubeconfig'
     debuggreen(f"kubectl config located at {KUBECONFIGPATH}")
+
+    #############################################################
+    ## INTERNAL PATHS
+
+    # data directory
+    global DATADIRECTORY
+    DATADIRECTORY = Path( PROJECT_ROOT, "data")
+
+    # extra stuff, volatile
+    global EXTRAS
+    EXTRAS = Path( PROJECT_ROOT, "extra")
+
+    # docker container operating files
+    global CONTAINERFOLDER
+    CONTAINERFOLDER = Path( PROJECT_ROOT, "containers")
+
+    # mysql data generated from mysql server
+    global MYSQL
+    MYSQL = Path( PROJECT_ROOT, "data", "mysql")
+
+    # redis data generated from redis server
+    global REDIS
+    REDIS = Path( PROJECT_ROOT, "data", "redis")
+
+    # definition of data that MUST persist for portability
+    # do not delete this unless refreshing to like new conditions
+    global PERSISTANTDATA
+    PERSISTANTDATA = [ MYSQL, REDIS]
+
+import argparse
+
+parser = argparse.ArgumentParser(description='page mirroring tool utilizing wget via python scripting')
+parser.add_argument('--start',
+                                 dest    = 'start',
+                                 action  = "store" ,
+                                 default = False, 
+                                 help    = "Starts the cluster, as defined in the config files")
+parser.add_argument('--cli',
+                                 dest    = '',
+                                 action  = "" ,
+                                 default = , 
+                                 help    = "")
+parser.add_argument('--',
+                                 dest    = '',
+                                 action  = "" ,
+                                 default = , 
+                                 help    = "")
+parser.add_argument('--',
+                                 dest    = '',
+                                 action  = "" ,
+                                 default = , 
+                                 help    = "")
+parser.add_argument('--',
+                                 dest    = '',
+                                 action  = "" ,
+                                 default = , 
+                                 help    = "")                                                                                                  

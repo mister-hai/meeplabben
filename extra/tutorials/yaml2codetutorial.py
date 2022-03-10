@@ -130,7 +130,8 @@ class Constructor():
 # and 
 #   python3.9 -> yaml
 
-#however, as this nieve implementation shown below elucidates, it can get out of hand quickly
+#however, as this nieve implementation shown below elucidates
+# it can get out of hand quickly
 # and is not arbitrary enough to be considered "meta" 
 # there is too much explicit, static, information
 # from 
